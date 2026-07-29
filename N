@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Background Music Page</title>
+  <style>
+    /* Global Reset and Layout */
+    body, html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #0f0f12;
+      color: #ffffff;
+      overflow: hidden;
+    }
+
+    /* Invisible container to hide the YouTube video player completely */
+    #hidden-player-container {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      border: 0;
+    }
+
+    /* Overlay screen to capture required user click gesture for Autoplay */
+    #overlay-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e1e24 0%, #0f0f12 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease, visibility 0.5s ease;
+    }
+
+    /* Main Website Content Interface */
+    #main-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+      background: radial-gradient(circle, #251c2c 0%, #0f0f12 100%);
+    }
+
+    .btn {
+      padding: 15px 35px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #fff;
+      background-color: #ff0055;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 5px 20px rgba(255, 0, 85, 0.4);
+      transition: transform 0.2s, background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #d60046;
+      transform: scale(1.05);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      letter-spacing: 1px;
+    }
+
+    p {
+      color: #aaaaaa;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. The Entry Overlay (Bypasses Browser Autoplay Restrictions) -->
+  <div id="overlay-screen">
+    <h1>Welcome to My Website</h1>
+    <p>Experience the page with background music</p>
+    <button class="btn" onclick="startExperience()">Click to Enter</button>
+  </div>
+
+  <!-- 2. Actual Website content visible after entry -->
+  <div id="main-content">
+    <h1>Tum Ho Toh</h1>
+    <p>Playing in the background...</p>
+  </div>
+
+  <!-- 3. Invisible YouTube Player Node Container -->
+  <div id="hidden-player-container">
+    <div id="yt-bg-player"></div>
+  </div>
+
+  <!-- 4. YouTube API Control Script -->
+  <script>
+    // Load the IFrame Player API code asynchronously
+    var tag = document.createElement('script');
+    tag.src = "https://youtube.com";
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+    var player;
+    function onYouTubeIframeAPIReady() {
+      player = new YT.Player('yt-bg-player', {
+        height: '100',
+        width: '100',
+        videoId: '7Acvwht7p5M', // Your song ID from the provided link
+        playerVars: {
+          'playsinline': 1,
+          'controls': 0,
+          'disablekb': 1,
+          'fs': 0,
+          'rel': 0
+        }
+      });
+    }
+
+    // Handles unlocking interface and firing the background audio stream
+    function startExperience() {
+      // Hide entry screen smooth fade
+      const overlay = document.getElementById('overlay-screen');
+      overlay.style.opacity = '0';
+      overlay.style.visibility = 'hidden';
+
+      // Play the background YouTube music element track
+      if (player && player.playVideo) {
+        player.playVideo();
+      }
+    }
+  </script>
+
+</body>
+</html>
