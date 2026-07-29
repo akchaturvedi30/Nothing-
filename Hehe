@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Friendship Day ❤️</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Segoe UI',sans-serif;
+}
+
+body{
+overflow:hidden;
+background:linear-gradient(-45deg,#ffd6e8,#ffe6f7,#d9f4ff,#fff0d6);
+background-size:400% 400%;
+animation:bg 12s ease infinite;
+}
+
+@keyframes bg{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
+}
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:0;
+}
+
+.slide{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:25px;
+opacity:0;
+transform:translateX(100%);
+transition:1s;
+color:#000;
+z-index:2;
+}
+
+.slide.active{
+opacity:1;
+transform:translateX(0);
+}
+
+h1{
+font-size:42px;
+margin-bottom:20px;
+}
+
+h2{
+font-size:32px;
+margin-bottom:20px;
+}
+
+p{
+font-size:22px;
+max-width:850px;
+line-height:1.7;
+}
+
+button{
+margin-top:35px;
+padding:15px 35px;
+font-size:20px;
+border:none;
+border-radius:40px;
+background:#ff4f9a;
+color:white;
+cursor:pointer;
+font-weight:bold;
+transition:.3s;
+box-shadow:0 8px 20px rgba(0,0,0,.25);
+}
+
+button:hover{
+transform:scale(1.08);
+}
+
+.heart{
+font-size:70px;
+animation:beat 1s infinite;
+}
+
+@keyframes beat{
+50%{transform:scale(1.2);}
+}
+
+.note{
+background:rgba(255,255,255,.75);
+padding:25px;
+border-radius:20px;
+max-width:850px;
+box-shadow:0 8px 20px rgba(0,0,0,.15);
+}
+
+.final{
+font-size:55px;
+color:#ff1493;
+animation:glow 2s infinite;
+}
+
+@keyframes glow{
+50%{
+text-shadow:0 0 15px hotpink,
+0 0 30px deeppink;
+}
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="slide active">
+<h1>🎉 Happy Friendship Day 🎉</h1>
+
+<p>
+A best friend is someone who makes every moment brighter, every smile bigger, and every memory unforgettable. Thank you for being such an important part of my life. ❤️
+</p>
+
+<button onclick="next()">Next ❤️</button>
+</div>
+
+<div class="slide">
+<h2>💖 Friendship Wishes 💖</h2>
+
+<p>
+May our friendship always remain strong, filled with happiness, laughter, trust, and countless beautiful memories. Happy Friendship Day! 🌸
+</p>
+
+<button onclick="next()">Next ✨</button>
+</div>
+
+<div class="slide">
+<div class="heart">🎁</div>
+
+<h2>Special Surprise</h2>
+
+<p>
+I have something very special to ask you... 💝
+</p>
+
+<button onclick="next()">Open Surprise</button>
+</div>
+
+<div class="slide">
+<h1>🥹 Will You Be My Best Friend Forever? ❤️</h1>
+
+<button onclick="next()">YES! 💖</button>
+</div>
+
+<div class="slide">
+
+<h1 class="final">❤️ Love Youu MK ❤️</h1>
+
+<div class="note">
+
+<p>
+Dear <b>Mukuu</b>, ❤️<br><br>
+
+I miss you so much, my Mukuu. 🥺💖<br><br>
+
+I know distance separates us apart, but nothing will ever change between us. No matter how many miles are between us, you'll always be my favourite person and my forever best friend. 🌍❤️<br><br>
+
+Every memory we have together is precious to me, and I can't wait for the day we laugh together again. Until then, always remember that you are never alone. 🤗💖<br><br>
+
+And whenever you miss me... just eat one toffee 🍬😝 and call me. I'm always there for you, no matter the distance. ❤️📞<br><br>
+
+Thank you for being such an amazing part of my life. Happy Friendship Day, my Mukuu! 💕<br><br>
+
+<b>Love Youu Forever ❤️🌹</b>
+
+</p>
+
+</div>
+
+</div>
+
+<script>
+const slides=document.querySelectorAll(".slide");
+let current=0;
+
+function next(){
+slides[current].classList.remove("active");
+current++;
+if(current>=slides.length){
+current=slides.length-1;
+}
+slides[current].classList.add("active");
+}
+
+const canvas=document.getElementById("confetti");
+const ctx=canvas.getContext("2d");
+
+function resize(){
+canvas.width=window.innerWidth;
+canvas.height=window.innerHeight;
+}
+resize();
+window.onresize=resize;
+
+const confetti=[];
+
+for(let i=0;i<250;i++){
+confetti.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*6+2,
+speed:Math.random()*3+2,
+color:`hsl(${Math.random()*360},100%,60%)`
+});
+}
+
+function animate(){
+ctx.clearRect(0,0,canvas.width,canvas.height);
+
+confetti.forEach(c=>{
+ctx.fillStyle=c.color;
+ctx.fillRect(c.x,c.y,c.size,c.size*2);
+
+c.y+=c.speed;
+
+if(c.y>canvas.height){
+c.y=-20;
+c.x=Math.random()*canvas.width;
+}
+});
+
+requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+
+</body>
+</html>
